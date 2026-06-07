@@ -1,0 +1,8 @@
+-e .
+langchain
+langchain-openai
+langgraph
+pydantic
+python-dotenv
+pymupdf
+pytest

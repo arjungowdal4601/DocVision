@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vision-indexer"
+version = "0.1.0"
+description = "Vision-first PDF indexing pipeline foundation."
+requires-python = ">=3.11"
+dependencies = [
+    "langchain",
+    "langchain-openai",
+    "langgraph",
+    "pydantic",
+    "python-dotenv",
+    "pymupdf",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore:The default value of `allowed_objects` will change in a future version.*:langchain_core._api.deprecation.LangChainPendingDeprecationWarning",
+]
