@@ -12,4 +12,5 @@ def test_graph_build_mermaid_contains_stage_one_nodes() -> None:
     assert "process_page_node" in mermaid
     assert "save_page_result_node" in mermaid
     assert "route_next_page_node" in mermaid
+    assert "build_topic_index_node" in mermaid
     assert "finalize_run_node" in mermaid

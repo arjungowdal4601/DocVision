@@ -3,9 +3,10 @@ from __future__ import annotations
 from pathlib import Path
 
 from vision_indexer.memory.memory_editor import (
-    apply_framework_memory_update,
-    apply_short_term_memory_update,
+    apply_framework_memory_edits,
+    apply_short_term_memory_edits,
 )
+from vision_indexer.schemas.memory_patch import MarkdownMemoryEdit
 
 
 FRAMEWORK_MEMORY_INITIAL = "# Framework Memory\n\n"
@@ -30,7 +31,10 @@ class MemoryStore:
         self.short_term_memory_path.write_text(SHORT_TERM_MEMORY_INITIAL, encoding="utf-8")
 
     def read_framework_memory(self) -> str:
-        return self.framework_memory_path.read_text(encoding="utf-8")
+        return apply_framework_memory_edits(
+            self.framework_memory_path.read_text(encoding="utf-8"),
+            [],
+        )
 
     def read_short_term_memory(self) -> str:
         return self.short_term_memory_path.read_text(encoding="utf-8")
@@ -38,8 +42,8 @@ class MemoryStore:
     def apply_page_memory_update(
         self,
         page_number: int,
-        framework_update_md: str,
-        short_term_update_md: str,
+        framework_memory_edits: list[MarkdownMemoryEdit],
+        short_term_memory_edits: list[MarkdownMemoryEdit],
     ) -> None:
         existing_framework = self.read_framework_memory()
         existing_short_term = self.read_short_term_memory()
@@ -48,8 +52,8 @@ class MemoryStore:
             self._write_debug_snapshot("framework", page_number, "before", existing_framework)
             self._write_debug_snapshot("short_term", page_number, "before", existing_short_term)
 
-        updated_framework = apply_framework_memory_update(existing_framework, framework_update_md)
-        updated_short_term = apply_short_term_memory_update(existing_short_term, short_term_update_md)
+        updated_framework = apply_framework_memory_edits(existing_framework, framework_memory_edits)
+        updated_short_term = apply_short_term_memory_edits(existing_short_term, short_term_memory_edits)
 
         self.framework_memory_path.write_text(updated_framework, encoding="utf-8")
         self.short_term_memory_path.write_text(updated_short_term, encoding="utf-8")

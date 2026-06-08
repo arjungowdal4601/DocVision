@@ -14,7 +14,7 @@ def _reset_handlers(logger: logging.Logger) -> None:
         handler.close()
 
 
-def setup_logging(run_dir: Path) -> None:
+def setup_logging(run_dir: Path, append: bool = False) -> None:
     logs_dir = run_dir / "logs"
     logs_dir.mkdir(parents=True, exist_ok=True)
 
@@ -28,7 +28,9 @@ def setup_logging(run_dir: Path) -> None:
     base_logger.propagate = False
     _reset_handlers(base_logger)
 
-    run_file_handler = logging.FileHandler(logs_dir / "run.log", encoding="utf-8")
+    file_mode = "a" if append else "w"
+
+    run_file_handler = logging.FileHandler(logs_dir / "run.log", mode=file_mode, encoding="utf-8")
     run_file_handler.setFormatter(formatter)
     base_logger.addHandler(run_file_handler)
 
@@ -42,6 +44,6 @@ def setup_logging(run_dir: Path) -> None:
     tokenomics_logger.propagate = False
     _reset_handlers(tokenomics_logger)
 
-    tokenomics_file_handler = logging.FileHandler(logs_dir / "tokenomics.log", encoding="utf-8")
+    tokenomics_file_handler = logging.FileHandler(logs_dir / "tokenomics.log", mode=file_mode, encoding="utf-8")
     tokenomics_file_handler.setFormatter(formatter)
     tokenomics_logger.addHandler(tokenomics_file_handler)

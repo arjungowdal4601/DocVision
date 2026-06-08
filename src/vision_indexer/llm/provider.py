@@ -15,6 +15,5 @@ def build_chat_model(config: AppConfig | None = None) -> BaseChatModel:
     return ChatOpenAI(
         model=resolved_config.model,
         reasoning_effort=resolved_config.reasoning_effort,
-        timeout=resolved_config.timeout_seconds,
         max_retries=resolved_config.max_retries,
     )

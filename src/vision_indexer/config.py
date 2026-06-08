@@ -23,7 +23,6 @@ class AppConfig:
     llm_provider: str = "openai"
     model: str = "gpt-5.4"
     reasoning_effort: str = "medium"
-    timeout_seconds: int = 60
     max_retries: int = 2
     pdf_dpi: int = 150
     debug_memory: bool = False
@@ -36,7 +35,6 @@ class AppConfig:
             llm_provider=getenv("VISION_INDEXER_LLM_PROVIDER", "openai"),
             model=getenv("VISION_INDEXER_MODEL", "gpt-5.4"),
             reasoning_effort=getenv("VISION_INDEXER_REASONING_EFFORT", "medium"),
-            timeout_seconds=_parse_int(getenv("VISION_INDEXER_TIMEOUT_SECONDS"), 60),
             max_retries=_parse_int(getenv("VISION_INDEXER_MAX_RETRIES"), 2),
             pdf_dpi=_parse_int(getenv("VISION_INDEXER_PDF_DPI"), 150),
             debug_memory=env_debug if debug_memory is None else debug_memory,
