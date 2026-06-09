@@ -23,7 +23,7 @@ warnings.filterwarnings(
 )
 
 from vision_indexer.graph.build_graph import build_graph
-from vision_indexer.graph.export_graph import export_graph_mermaid
+from vision_indexer.graph.export_graph import export_graph
 from vision_indexer.logging_config import setup_logging
 from vision_indexer.retry.retry_policy import RetryPolicy
 from vision_indexer.storage.run_status_store import load_run_status
@@ -67,7 +67,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     logger.info("Starting vision-indexer run")
 
     graph = build_graph()
-    export_graph_mermaid(graph, run_dir / "graph")
+    export_graph(graph, run_dir / "graph")
 
     graph.invoke(
         {
